@@ -31,7 +31,7 @@ func getToken() {
 		log.Printf("[error] %s", err)
 	}
 	log.Printf("[debug] %s", string(body))
-	// {"access_token":"3343009811c86944f8e811b2c6790655d212d087","expires_in":86400,"token_type":"Bearer","scope":null}
+	// [dropify] [debug] {"access_token":"d43bbd27ee9f75edcbc6bb8d8ca73218b99ec9ad","expires_in":86400,"token_type":"Bearer","scope":null}
 
 	// // Request product add.
 	// client := &http.Client{}

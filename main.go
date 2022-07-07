@@ -6,6 +6,8 @@ import (
 	"os"
 	"path"
 	"time"
+
+	"github.com/go-redis/redis/v7"
 )
 
 var dropify string
@@ -21,6 +23,9 @@ var production bool
 
 // Brazil time location.
 var brLocation *time.Location
+
+// Redis.
+var redisClient *redis.Client
 
 func init() {
 	// Host.
@@ -77,6 +82,10 @@ func init() {
 	log.SetPrefix("[dropify] ")
 	log.SetFlags(log.Ldate | log.Lmicroseconds | log.Lmsgprefix)
 
+	// Redis.
+	initRedis()
+	defer closeRedis()
+
 }
 
 func main() {
@@ -91,4 +100,21 @@ func main() {
 	// fmt.Println("dropify_host: ", dropify_host)
 	// fmt.Println("dropify_client_id: ", dropify_client_id)
 	// fmt.Println("dropify_client_secret: ", dropify_client_secret)
+}
+
+func initRedis() {
+	// Connect to Redis DB.
+	redisClient = redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+	pong, err := redisClient.Ping().Result()
+	if err != nil || pong != "PONG" {
+		log.Panicf("[panic] Couldn't connect to Redis DB. %s", err)
+	}
+	// log.Printf("Connected to Redis")
+}
+func closeRedis() {
+	// log.Printf("Closing Redis connection...")
 }
