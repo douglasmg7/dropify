@@ -10,6 +10,8 @@ import (
 	"github.com/go-redis/redis/v7"
 )
 
+const NAME = "dropify"
+
 var dropify string
 var dropify_host string
 var dropify_client_id string
@@ -58,6 +60,9 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+
+	// Init log
+	initLog()
 
 	// Path for log.
 	zunkaPathdata := os.Getenv("ZUNKAPATH")
